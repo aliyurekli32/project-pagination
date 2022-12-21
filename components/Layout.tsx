@@ -5,7 +5,7 @@ import { styled } from "@linaria/react";
 import { css,cx } from "@linaria/core";
 
 const Layout = ({children}) => {
-  return <div className="relative" >
+  return <div >
   <Navbar/>
   {children}
   <Footer/>

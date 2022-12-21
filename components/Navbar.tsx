@@ -14,7 +14,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="navbar text-white text-xl uppercase z-[3] hover:bg-black  transition-colors-5 rounded-md fixed">
+      <div className="navbar text-white text-xl uppercase z-[3] hover:bg-black  transition-colors-5 rounded-md">
         <div className="navbar-start relative">
           <div className="dropdown">
             <label
