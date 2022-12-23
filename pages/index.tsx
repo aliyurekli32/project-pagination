@@ -16,17 +16,17 @@ const Home: NextPage = () => {
   const getUser=async(numberId:number)=>{
     
 
-    const userData= await fetch(`https://api.github.com/users?since=${numberId}`).then(res=>res.json()).then(data=>setData(data)).catch(err=>console.log(err))
+    const userData= await fetch(`https://api.github.com/users?since=${numberId}&per_page=90`).then(res=>res.json()).then(data=>setData(data)).catch(err=>console.log(err))
 
   }
-  const totalPage=data.length;
+  const totalPage=data.length/3;
   
   let pageNumbers:number[]=[];
-  for(let i=0;i<data.length;i++){
+  for(let i=0;i<(data.length/3);i++){
     pageNumbers=[...pageNumbers,i+1]
   }
   useEffect(() => {
-   
+   console.log('object');
  getUser(Math.ceil(Math.random()*10000))
   }, []);
 
@@ -41,23 +41,44 @@ const Home: NextPage = () => {
       setPage(page-0+1)
     }
     
-    if(e.target.value < 27 && typeof +(e.target.value) === 'number' && !(isNaN(Number(e.target.value)))){
+    if(e.target.value < 31 && typeof +(e.target.value) === 'number' && !(isNaN(Number(e.target.value)))){
       
       setPage(e.target.value)
     }
       
   }
- 
+ const filteredData=data.filter((item,index)=>{
+  if((page-1)*3===index || ((page-1)*3)+1===index || ((page-1)*3)+2===index){
+    return item
+  }
+});
+console.log(filteredData);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
   return (
     <>
   <div className='mt-24' ></div>
 
     <div className='container text-center p-5' >
+      <div>
+      {filteredData.map((i:any)=>{
+      return(<>
+              <div className="card lg:card-side bg-base-100 shadow-xl">
+  <figure><img className='w-[400px] h-[400px]' src={i.avatar_url} alt="Album"/></figure>
+  <div className="card-body">
+    <h2 className="card-title mx-auto uppercase">{i.login}</h2>
+    <p>Click the button to listen on Spotiwhy app.</p>
+    <div className="card-actions justify-end">
+      <button className="btn btn-primary">Listen</button>
+    </div>
+  </div>
+</div>
+      </>)
+    })}
+      </div>
     
 
     <div className="btn-group">
     <button onClick={(e)=>handlePage(e)} value="Before" className="btn">Before</button>
-   {page<30 && <button onClick={(e)=>handlePage(e)} value={+page} className="btn">{+page}</button>} 
+   {page<30 && <button onClick={(e)=>handlePage(e)} value={+page} className="btn bg-red-900 hover:bg-red-700">{+page}</button>} 
    {page<29 && <button onClick={(e)=>handlePage(e)} value={+page+1} className="btn">{+page+1}</button>} 
    {page<28 && <button onClick={(e)=>handlePage(e)} value={+page+2} className="btn">{+page+2}</button>} 
     
@@ -76,7 +97,7 @@ const Home: NextPage = () => {
 </div>
         
     
-    <button onClick={(e)=>handlePage(e)} value={+totalPage} className="btn">{+totalPage}</button>
+    <button onClick={(e)=>handlePage(e)} value={+totalPage} className={`btn ${page===30 ? "bg-red-900 hover:bg-red-700" : ""}`}>{+totalPage}</button>
     <button onClick={(e)=>handlePage(e)} value="Next" className="btn">Next</button>
   </div>
     </div>
